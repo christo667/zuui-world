@@ -7,14 +7,14 @@
  * @author  Michael Kolling and David J. Barnes
  * @version 1.0 (February 2002)
  */
+import java.util.Set;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class Room 
 {
-    public String description;
-    public Room northExit;
-    public Room southExit;
-    public Room eastExit;
-    public Room westExit;
+    private String description;
+    private HashMap exits;
 
     /**
      * Create a room described "description". Initially, it has
@@ -24,30 +24,41 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
+        exits = new HashMap();
     }
 
     /**
      * Define the exits of this room.  Every direction either leads
      * to another room or is null (no exit there).
      */
-    public void setExits(Room north, Room east, Room south, Room west) 
-    {
-        if(north != null)
-            northExit = north;
+    public void setExits(String direction, Room neighbor) {
+        /*if(north != null)
+            exits.put("north", north);
         if(east != null)
-            eastExit = east;
+            exits.put("east", east);
         if(south != null)
-            southExit = south;
+            exits.put("south", south);
         if(west != null)
-            westExit = west;
+            exits.put("west", west);*/
+        exits.put(direction, neighbor);
     }
+    
+    public Room getExit(String direction){
+        return (Room)exits.get(direction);        
+}
 
+    public String getExitString() {
+        String returnString = "Exits:";
+        Set keys = exits.keySet();
+        for(Iterator iter = keys.iterator(); iter.hasNext(); )
+        returnString += " " + iter.next();
+        return returnString;
+    }
     /**
      * Return the description of the room (the one that was defined
      * in the constructor).
      */
-    public String getDescription()
-    {
+    public String getDescription(){
         return description;
     }
 
